@@ -924,3 +924,12 @@ app.get("/api/admin/products/:id", authenticateToken, requireAdmin, (req, res) =
       });
    }
 });
+
+const allowedOrigins = ["http://localhost:5173", "https://mern-bookstore-frontend-pi.vercel.app"];
+
+app.use(
+   cors({
+      origin: (origin, callback) => (allowedOrigins.includes(origin) ? callback(null, true) : callback(new Error("CORS"))),
+      credentials: true,
+   })
+);
