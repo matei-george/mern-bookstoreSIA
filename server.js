@@ -918,17 +918,11 @@ app.get("/api/admin/products/:id", authenticateToken, requireAdmin, (req, res) =
    }
 });
 
-<<<<<<< HEAD
 const allowedOrigins = ["http://localhost:5173", "https://mern-bookstore-frontend-pi.vercel.app"];
 
 app.use(
    cors({
       origin: (origin, callback) => (allowedOrigins.includes(origin) ? callback(null, true) : callback(new Error("CORS"))),
-=======
-app.use(
-   cors({
-      origin: "*",
->>>>>>> f816f91a581d926ec31c61d40032f2cf469f78e2
       credentials: true,
    })
 );
