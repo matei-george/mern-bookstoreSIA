@@ -14,6 +14,26 @@ const path = require("path");
 const app = express();
 const PORT = 3000;
 
+// Definirea ORIGINILOR permise pentru producție și dezvoltare (Vercel și Local)
+const allowedOrigins = ["http://localhost:5173", "https://mern-bookstore-frontend-pi.vercel.app"];
+
+// Configurarea middleware-ului CORS (MUTAT ÎN FAȚĂ)
+app.use(
+   cors({
+      origin: (origin, callback) => {
+         // Permite cererile fără 'origin' (ex: Postman, aplicații native)
+         if (!origin) return callback(null, true);
+         if (allowedOrigins.includes(origin)) {
+            return callback(null, true);
+         }
+         const error = new Error("Not allowed by CORS");
+         error.status = 403; // Cod de eroare specific CORS
+         return callback(error, false);
+      },
+      credentials: true,
+   })
+);
+
 // Configurarea middleware-ului de bază
 app.use(cors()); // Permite cereri cross-origin de la frontend
 app.use(express.json()); // Parser pentru JSON în request body
@@ -917,12 +937,3 @@ app.get("/api/admin/products/:id", authenticateToken, requireAdmin, (req, res) =
       });
    }
 });
-
-const allowedOrigins = ["http://localhost:5173", "https://mern-bookstore-frontend-pi.vercel.app"];
-
-app.use(
-   cors({
-      origin: (origin, callback) => (allowedOrigins.includes(origin) ? callback(null, true) : callback(new Error("CORS"))),
-      credentials: true,
-   })
-);
