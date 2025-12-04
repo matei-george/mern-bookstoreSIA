@@ -5,6 +5,13 @@
  * - Catalog de produse (cărți) cu prețuri și stocuri
  * */
 
+app.use(
+   cors({
+      origin: "*",
+      credentials: true,
+   })
+);
+
 const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
